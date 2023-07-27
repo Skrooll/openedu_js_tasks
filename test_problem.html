@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <!-- Create a simple CodeMirror instance -->
+        <link rel="stylesheet" href="https://courses.openedu.ru/asset-v1:spbstu+PAJS+fall_2023+type@asset+block@codemirror.css">
+        <script src="https://courses.openedu.ru/asset-v1:spbstu+PAJS+fall_2023+type@asset+block@codemirror.js"></script>
+        <!-- <link rel="stylesheet" href="lib/codemirror.css">
+        <script src="lib/codemirror.js"></script> -->
+    </head>
+    <body style="margin: 0xp">
+        <script>
+            const editor = CodeMirror(document.body, {
+                lineNumbers: true,
+                mode:  "javascript",
+            });
+
+            function getState() {
+                return editor.doc.getValue();
+            }
+
+            function setState(doc) {
+                editor.doc.setValue(doc);
+            }
+
+            function getGrade() {
+                let result = 'failed';
+                let exp = editor.doc.getValue();
+                let error = null;
+                let validation = `
+                    ;
+                    temperature === 25.7; 
+                `;
+                try {
+                    result = eval(exp+validation) ? 'success' : 'failed';
+                } catch (e) {
+                    error = `${e.name}: ${e.message}`;
+                    console.error(error);
+                }
+                return JSON.stringify({
+                    answer: result,
+                    state: exp,
+                    error: error,
+                });
+            }
+        </script>
+    </body>
+</html>
